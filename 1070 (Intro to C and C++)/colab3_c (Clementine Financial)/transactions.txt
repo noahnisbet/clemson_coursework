@@ -1,0 +1,5 @@
+2/1/22 UTILITY Duke_Energy -52.67
+2/5/22 MERCHANDISE Carowinds -18.99
+2/7/22 COFFEESHOP Clemson_Coffee -3.99
+2/12/22 AUTOMOTIVE Valvoline -29.99
+2/23/22 OTHER parking_fee -3.99
