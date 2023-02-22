@@ -1,0 +1,260 @@
+/*
+ * Name: Noah Nisbet
+ * Date Submitted: January 26, 2023
+ * Lab Section: 004
+ * Assignment Name: Lab 1: Linked List Based Stacks and Queues 
+ */
+
+#pragma once
+
+#include <iostream>
+#include <string>
+#include "Node.h"
+using namespace std;
+
+//This class represents a linked list of node objects
+//Do not modify anything in the class interface
+template <class T>
+class List{
+
+ private:
+  Node<T> * start; //pointer to the first node in this list
+  int mySize;  //size (or length) of this list
+
+ public:
+  List();
+  ~List();
+  int size();
+  bool empty();
+  void insertStart(T);
+  void insertEnd(T);
+  void insertAt(T, int);
+  void removeStart();
+  void removeEnd();
+  void removeAt(int);
+  T getFirst();
+  T getLast();
+  T getAt(int);
+  int find(T);
+
+  //Print the name and this list's size and values to stdout
+  //This function is already implemented (no need to change it)
+  void print(string name){
+    cout << name << ": ";
+    cout << "size = " << size();
+    cout << ", values = ";
+    Node<T> * iterator = start;
+    while(iterator != nullptr){
+      cout << iterator->value << ' ';
+      iterator = iterator->next;
+    }
+    cout << endl;
+  }
+
+}; //end of class interface (you may modify the code below)
+
+//Implement all of the functions below
+//Construct an empty list by initializig this list's instance variables
+template <class T>
+List<T>::List(){ 
+  start = nullptr;
+  mySize = 0;
+}
+
+//Destroy all nodes in this list to prevent memory leaks
+template <class T>
+List<T>::~List(){
+  Node<T> *curNode = start;
+  for (int i=1; i<mySize; i++){
+      Node<T> *tempNode = curNode;
+      curNode = curNode->next;
+      delete tempNode;
+    }
+}
+
+//Return the size of this list
+template <class T>
+int List<T>::size(){
+  return mySize;
+}
+
+//Return true if this list is empty
+//Otherwise, return false
+template <class T>
+bool List<T>::empty(){
+  if (mySize == 0) {return true;}
+  else {return false;}
+}
+
+//Create a new node with value, and insert that new node
+//into this list at start
+template <class T>
+void List<T>::insertStart(T value){
+  Node<T> * newHead = new Node<T> (value);
+  newHead->next = start;
+  start = newHead;
+  mySize++;
+}
+
+//Create a new node with value, and insert that new node
+//into this list at end
+template <class T>
+void List<T>::insertEnd(T value){
+  if (mySize == 0){
+    insertStart(value);
+    return;
+  }
+  Node<T> * curNode = start;
+  for (int i=1; i<mySize; i++){
+    curNode = curNode->next;
+  }
+  Node<T> * newNode = new Node<T> (value);
+  curNode->next = newNode;
+  mySize++;
+}
+
+//Create a new node with value <value>, and insert that new node at position j
+template <class T>
+void List<T>::insertAt(T value, int j){
+  if (j == 0)
+    {
+      insertStart(value);
+    }
+  else if((j > (mySize-1)) || (j < 0))
+    {
+      cout<<"invalid index"<<endl;
+    }
+  else if ((j > 0) && (j<(mySize)))
+    {
+      int sentinel = 0;
+      Node<T> * curNode = start->next;
+      Node<T> * previousNode = start;
+      Node<T> * newNode = new Node<T> (value);
+      for (int i=1; (i<(mySize)) && (sentinel != 1); i++){
+	  if (i == j)
+	    {
+	      newNode->next = curNode;
+	      previousNode->next = newNode;
+	      sentinel = 1;
+	    }
+	  else
+	    {
+	      cout<<i<<endl;
+	      curNode = curNode->next;
+	      previousNode = previousNode->next; 
+	    }
+      }
+      mySize++;
+    }
+  else
+    {
+      cout<<"Invalid index"<<endl;
+    }
+}
+
+//Remove node at start
+//Make no other changes to list
+template <class T>
+void List<T>::removeStart(){
+  if (mySize > 0){
+  Node<T> *tempNode = start;
+  start = start->next;
+  delete tempNode;
+  mySize--;
+  }
+  else {
+    cout<<"invalid because no start to list."<<endl;
+  }
+}
+
+//Remove node at end
+//Make no other changes to list
+template <class T>
+void List<T>::removeEnd(){
+  Node<T> *curNode = start;
+  if (mySize == 1){
+    delete start;
+  }
+  else if (mySize > 0){  
+    for (int i=1; i<mySize-1; i++){
+      curNode = curNode->next;
+    }
+    Node<T> *tempNode = curNode->next;
+    curNode->next = nullptr;
+    delete tempNode;
+    mySize--;
+  }
+}
+
+//Remove node at position j
+//Make no other changes to list
+template <class T>
+void List<T>::removeAt(int j){
+  if (j == 0){
+    removeStart();
+  }
+  else if (j == (mySize-1)){
+    removeEnd();
+  }
+  else if ((j < (mySize-1)) && (j > 0))
+    {
+      Node<T> *curNode = start;
+      for (int i=1; i<(j); i++){
+	curNode = curNode->next;
+      }
+      Node<T> *tempNode = curNode->next;
+      curNode->next = curNode->next->next;
+      delete tempNode;
+      mySize--;
+    }
+  else {
+    cout<<"invalid index"<<endl;
+  }
+}
+
+//Return the value of the first node in the Linked List,
+//If no first node, return the default constructed value: T()
+template <class T>
+T List<T>::getFirst(){
+  return start->value;
+}
+
+//Return the value of the last node in the Linked List,
+//If no first node, return the default constructed value: T()
+template <class T>
+T List<T>::getLast(){
+  Node<T> *curNode = start;
+  for (int i=1; i<mySize; i++){
+    curNode = curNode->next;
+  }
+  return curNode->value;
+}
+
+//Return the value of the node at position j in the Linked List,
+//If no first node, return the default constructed value: T()
+template <class T>
+T List<T>::getAt(int j){
+  Node<T> *curNode = start;
+  for (int i=0; i<j; i++){
+      curNode = curNode->next;
+    }
+  return curNode->value;
+}
+
+
+//Return the position of the (first) node whose value is equal to the key
+//Otherwise, return -1
+template <class T>
+int List<T>::find(T key){
+  Node<T> *curNode = start;
+  int curPos = 0;
+  for (int i=1; i<mySize; i++){
+      if (curNode->value == key)
+	{
+	  return curPos;
+	}
+      curNode = curNode->next;
+      curPos++;
+  }
+  return -1;
+}

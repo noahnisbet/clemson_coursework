@@ -1,0 +1,38 @@
+Noah Nisbet
+Dr. Razi
+Feb 5, 2023
+Artificial Intelligence HW 1
+
+Note! Make sure pygame is installed in your environment so that the image window will be displayed. Use: “pip install pygame”
+
+A)	In the program
+
+B)	In the program
+
+C)	In the program
+
+D)	In the program
+
+E)	In the program. It took 1756 steps to find the solution. The solution was only 12 moves 
+	long.
+
+F)	A depth-first search took many more steps to find the solution. The depth first search 
+	took 120621 steps to find. The solution is 59038 moves long. This is because the depth-
+	first search is not optimal. It is pretty much just luck to find the goal state early in the 
+	search with DFS. On the other hand, BFS is not just luck. If the algorithm takes fewer 
+	steps, it is because the goal state is a low number of actions away from the start.
+
+G)	In the program. It took 61406 steps to find the goal. The solution is 53292 moves long.
+
+H)	I used the state 125387064 for my analysis.
+ 
+	a.	It took 615 steps from the algorithm to find the goal state. The goal state was 11 
+		actions away from the start.
+
+	b.	It took 759 steps from the algorithm to find the goal state. The goal state was 11 
+		actions away from the start. It took fewer steps for the unit cost UCS because 
+		there is no reason to have these costs associated with moves. It will just throw 
+		off the algorithm. If there were some reasons for these heuristics, maybe it 
+		would help. It happens to not change the length of the goal sequence in this 
+		case, however, there is no reason for it to be the same. It could lengthen the 
+		goal sequence as well.

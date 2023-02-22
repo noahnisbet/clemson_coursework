@@ -1,0 +1,144 @@
+/*
+ * Name:
+ * Date Submitted:
+ * Lab Section:
+ * Assignment Name:
+ */
+
+#pragma once
+
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+template <class T>
+void swap(std::vector<T> &lst, int idx1, int idx2){
+  T temp = lst[idx2];
+  lst[idx2] = lst[idx1];
+  lst[idx1] = temp;
+}
+
+template <class T>
+std::vector<T> mergeSort(std::vector<T> lst){
+
+  if (lst.size() <= 1){
+    return lst;
+  }
+
+  int middle = lst.size()/2;
+  
+  std::vector<T> half1;
+  for (int i=0; i<middle; i++){
+    half1.push_back(lst[i]);
+  }
+
+  std::vector<T> half2;
+  for (int i=middle; i<lst.size(); i++){
+    half2.push_back(lst[i]);
+  }
+
+  std::cout<<"half1: ";
+  for(int k = 0; k<half1.size(); k++)
+    {
+      std::cout<<half1[k]<<" ";
+    }
+  std::cout<<std::endl;
+
+  std::cout<<"half2: ";
+  for(int k = 0; k<half2.size(); k++)
+    {
+      std::cout<<half2[k]<<" ";
+    }
+  std::cout<<std::endl;
+  
+  std::cout<<half1.size()<<" half1"<<std::endl;
+  std::cout<<half2.size()<<" half2"<<std::endl;
+  
+  half1 = mergeSort(half1);
+  half2 = mergeSort(half2);
+
+  std::vector<T> mergingTime;
+
+  int j=0;
+  int i=0;
+  while((i < half1.size()) && (j<half2.size()))
+    {
+      if (half1[i] < half2[j])
+	{
+	  mergingTime.push_back(half1[i]);
+	  i++;
+	}
+      else if (half1[i] >= half2[j])
+	{
+	  mergingTime.push_back(half2[j]);
+	  j++;
+	}
+    }
+  std::cout<<"before: ";
+  for(int k = 0; k<mergingTime.size(); k++)
+    {
+      std::cout<<mergingTime[k]<<" ";
+    }
+  std::cout<<std::endl;
+  
+  for(int k=i; k<half1.size(); k++)
+    {
+      mergingTime.push_back(half1[i]);
+    }
+
+  for(int k=j; k<half2.size(); k++)
+    {
+      mergingTime.push_back(half2[j]);
+    }
+
+  std::cout<<"merging: ";
+  for(int k = 0; k<mergingTime.size(); k++)
+    {
+      std::cout<<mergingTime[k]<<" ";
+    }
+  std::cout<<std::endl;
+  
+  return mergingTime;
+}
+
+template <class T>
+std::vector<T> quickSort(std::vector<T> lst){
+
+  srand(time(NULL));
+  if (lst.size() <= 1)
+    return lst;
+  
+  int pivotIndex = rand() % lst.size();
+  T pivotValue = lst[pivotIndex];
+  swap(lst, 0, pivotIndex);
+  pivotIndex = 0;
+  
+  for (int i=1; i<lst.size(); i++)
+    {
+      if (lst[i] < pivotValue)
+        {
+	  pivotIndex++;
+	  swap(lst, i, pivotIndex);
+	}
+    }
+
+  swap(lst, 0, pivotIndex);
+
+  std::vector<T> half1;
+  for (int i=0; i<pivotIndex; i++)
+    half1.push_back(lst[i]);
+
+  std::vector<T> half2;
+  for (int i=pivotIndex+1; i<lst.size(); i++)
+    half2.push_back(lst[i]);
+  
+  half1 = quickSort(half1);
+  half2 = quickSort(half2);
+  
+  half1.push_back(lst[pivotIndex]);
+
+  for (int i=0; i<half2.size(); i++)
+    half1.push_back(half2[i]);
+  
+  return half1;
+}
